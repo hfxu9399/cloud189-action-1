@@ -1,8 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: UTF-8 -*-
-'''
-Created on 2020年3月17日
-'''
+
 import requests
 import re #正则模块
 import time
@@ -32,6 +30,10 @@ password_hash = False  # 密码为md5时设置为True
 questionid = ''  # 问题ID，参考上面注释，没有可不填
 answer = ''   # 问题答案，没有可不填
 SCKEY=''#Server酱申请的skey
+
+if(username == "" or password == ""):
+    username = input("账号：")
+    password = input("密码：")
 
 def get_formhash(session):
     res = session.get(url=url_login, headers=headers)
