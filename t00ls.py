@@ -1,10 +1,13 @@
 #!/usr/bin/env python3
 # -*- coding: UTF-8 -*-
-
+'''
+Created on 2020年3月17日
+'''
 import requests
 import re #正则模块
 import time
 import hashlib
+import datetime
 
 
 headers = {
@@ -30,11 +33,10 @@ password_hash = False  # 密码为md5时设置为True
 questionid = ''  # 问题ID，参考上面注释，没有可不填
 answer = ''   # 问题答案，没有可不填
 SCKEY=''#Server酱申请的skey
-
 if(username == "" or password == ""):
     username = input("账号：")
     password = input("密码：")
-
+    SCKEY = input()
 def get_formhash(session):
     res = session.get(url=url_login, headers=headers)
     formhash_1 = re.findall('value=\"[0-9a-f]{8}\"', res.text)
@@ -97,9 +99,12 @@ def main():
     login_t00ls(session)#登录T00ls
     res_signin = signin_t00ls(session)#签到
     print(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()), res_signin.text)
-    datamsg={"text":"T00ls签到成功！","desp":res_signin.text}
-    if "success" in res_signin.text:
-        requests.post("https://sc.ftqq.com/"+SCKEY+".send",data=datamsg)
+    now_time = datetime.datetime.now()
+    bj_time = now_time + datetime.timedelta(hours=8)
+    datamsg={"text":bj_time.strftime("%Y-%m-%d %H:%M:%S %p")+"_T00ls签到成功！","desp":res_signin.text}
+    if "fail" in res_signin.text:
+        requests.post('https://sc.ftqq.com/'+SCKEY+'.send',datamsg)
+
         
 def main_handler(event, context):
   return main()
