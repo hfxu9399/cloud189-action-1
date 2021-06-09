@@ -102,7 +102,7 @@ def main():
     now_time = datetime.datetime.now()
     bj_time = now_time + datetime.timedelta(hours=8)
     datamsg={"text":bj_time.strftime("%Y-%m-%d %H:%M:%S %p")+"_T00ls签到成功！","desp":res_signin.text}
-    if "sucess" in res_signin.text:
+    if "success" in res_signin.text:
         requests.post('https://sc.ftqq.com/'+SCKEY+'.send',datamsg)
 
         
